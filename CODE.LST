@@ -35,16 +35,16 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 0016                        33  
 0016                        34  ;--------INTERRUPT ROUTINES---
 0016                        35  EX0ISR:
-0016  12 04 52              36  	LCALL PROMPT
+0016  12 04 56              36  	LCALL PROMPT
 0019                        37  	;CODE	KEYPAD AND STUFF
 0019  32                    38  	RETI
 001A                        39  EX1ISR:
-001A  12 04 3B              40  	LCALL RESTART_LCD
-001D  12 04 2B              41  	LCALL G_LED			; FLASH G LED 3 TIMES
+001A  12 04 3F              40  	LCALL RESTART_LCD
+001D  12 04 2F              41  	LCALL G_LED			; FLASH G LED 3 TIMES
 0020  02 03 0D              42  	LJMP INIT_LCD			; NOW START COUNTING
 0023  32                    43  	RETI
 0024                        44  T0ISR:
-0024  12 03 76              45  	LCALL IntDELAY
+0024  12 03 7A              45  	LCALL IntDELAY
 0027  32                    46  	RETI
 0028                        47  
 0028                        48  
@@ -68,293 +68,294 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 0319  75 33 00              64  	MOV MM2,#0    ; MM
 031C  75 34 00              65  	MOV HH1,#0    ; HH
 031F  75 35 00              66  	MOV HH2,#0    ; HH
-0322                        67  
-0322                        68  AGAIN:
-0322                        69  	;--------------SEND HH---------
-0322  71 D9                 70  	ACALL LCD
-0324  E5 35                 71  	MOV A,HH2 ; MOVE THE HH SECOND
-0326  24 30                 72  	ADD A,#30H	;HEXIFY
-0328  91 79                 73  	ACALL WCHR 
-032A  91 96                 74  	ACALL LDELAY ; 4.1 msec required for this command
-032C                        75  	;---HH1
-032C  E5 34                 76  	MOV A,HH1 ; MOVE THE HH FIRST
-032E  24 30                 77  	ADD A,#30H
-0330  91 79                 78  	ACALL WCHR 
-0332  91 96                 79  	ACALL LDELAY ; 4.1 msec required for this command
-0334                        80  	
-0334  74 3A                 81  	MOV A,#':' ; PUT A COLOR 
-0336  91 79                 82  	ACALL WCHR 
-0338  91 96                 83  	ACALL LDELAY ; 4.1 msec required for this command
-033A                        84  	;-------------- NOW SEND MM---------------
-033A  E5 33                 85  	MOV A,MM2 ; MOVE THE MM SECOND
-033C  24 30                 86  	ADD A,#30H
-033E  91 79                 87  	ACALL WCHR 
-0340  91 96                 88  	ACALL LDELAY ; 4.1 msec required for this command
-0342                        89  	
-0342  E5 32                 90  	MOV A,MM1 ; MOVE THE MM SECOND
-0344  24 30                 91  	ADD A,#30H
-0346  91 79                 92  	ACALL WCHR 
-0348  91 96                 93  	ACALL LDELAY ; 4.1 msec required for this command
-034A                        94  	
-034A  74 3A                 95  	MOV A,#':' ; MOVE THE : 
-034C  91 79                 96  	ACALL WCHR 
-034E  91 96                 97  	ACALL LDELAY ; 4.1 msec required for this command
-0350                        98  	;------------------ NOW SEND SS --------------------------------
-0350                        99  	
-0350  E5 31                100  	MOV A,SS2 ; MOVE THE SS FIRST
-0352  24 30                101  	ADD A,#30H
-0354  91 79                102  	ACALL WCHR 
-0356  91 96                103  	ACALL LDELAY ; 4.1 msec required for this command
-0358                       104  	
-0358  E5 30                105  	MOV A,SS1 ; MOVE THE SS FIRST
-035A  24 30                106  	ADD A,#30H
-035C  91 79                107  	ACALL WCHR 
-035E  91 96                108  	ACALL LDELAY ; 4.1 msec required for this command
-0360                       109  	
-0360                       110  	;------ RESUME
-0360                       111  
-0360  02 03 22             112  	LJMP AGAIN
-0363                       113  
-0363                       114  RESETT:
-0363  75 34 00             115  	MOV HH1,#0
-0366  75 35 00             116  	MOV HH2,#0
+0322  71 DD                 67  	ACALL LCD
+0324                        68  AGAIN:
+0324                        69  	;--------------SEND HH---------
+0324  74 01                 70  	MOV A,#1H
+0326  91 6A                 71  	ACALL CMD
+0328  E5 35                 72  	MOV A,HH2 ; MOVE THE HH SECOND
+032A  24 30                 73  	ADD A,#30H	;HEXIFY
+032C  91 7D                 74  	ACALL WCHR 
+032E  91 9A                 75  	ACALL LDELAY ; 4.1 msec required for this command
+0330                        76  	;---HH1
+0330  E5 34                 77  	MOV A,HH1 ; MOVE THE HH FIRST
+0332  24 30                 78  	ADD A,#30H
+0334  91 7D                 79  	ACALL WCHR 
+0336  91 9A                 80  	ACALL LDELAY ; 4.1 msec required for this command
+0338                        81  	
+0338  74 3A                 82  	MOV A,#':' ; PUT A COLOR 
+033A  91 7D                 83  	ACALL WCHR 
+033C  91 9A                 84  	ACALL LDELAY ; 4.1 msec required for this command
+033E                        85  	;-------------- NOW SEND MM---------------
+033E  E5 33                 86  	MOV A,MM2 ; MOVE THE MM SECOND
+0340  24 30                 87  	ADD A,#30H
+0342  91 7D                 88  	ACALL WCHR 
+0344  91 9A                 89  	ACALL LDELAY ; 4.1 msec required for this command
+0346                        90  	
+0346  E5 32                 91  	MOV A,MM1 ; MOVE THE MM SECOND
+0348  24 30                 92  	ADD A,#30H
+034A  91 7D                 93  	ACALL WCHR 
+034C  91 9A                 94  	ACALL LDELAY ; 4.1 msec required for this command
+034E                        95  	
+034E  74 3A                 96  	MOV A,#':' ; MOVE THE : 
+0350  91 7D                 97  	ACALL WCHR 
+0352  91 9A                 98  	ACALL LDELAY ; 4.1 msec required for this command
+0354                        99  	;------------------ NOW SEND SS --------------------------------
+0354                       100  	
+0354  E5 31                101  	MOV A,SS2 ; MOVE THE SS FIRST
+0356  24 30                102  	ADD A,#30H
+0358  91 7D                103  	ACALL WCHR 
+035A  91 9A                104  	ACALL LDELAY ; 4.1 msec required for this command
+035C                       105  	
+035C  E5 30                106  	MOV A,SS1 ; MOVE THE SS FIRST
+035E  24 30                107  	ADD A,#30H
+0360  91 7D                108  	ACALL WCHR 
+0362  91 9A                109  	ACALL LDELAY ; 4.1 msec required for this command
+0364                       110  	
+0364                       111  	;------ RESUME
+0364                       112  
+0364  02 03 24             113  	LJMP AGAIN
+0367                       114  
+0367                       115  RESETT:
+0367  75 34 00             116  	MOV HH1,#0
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 3
 
-0369  75 32 00             117  	MOV MM1,#0
-036C  75 33 00             118  	MOV MM2,#0
-036F  75 30 00             119  	MOV SS1,#0
-0372  75 31 00             120  	MOV SS2,#0
-0375  22                   121  	RET
-0376                       122  
-0376                       123  	
-0376                       124  ;---START OF SUB PROCESSES
-0376                       125  IntDELAY:
-0376  DE 60                126  	DJNZ R6,OUTT
-0378                       127  
-0378  A2 93                128  	MOV C,R
-037A  B3                   129  	CPL C
-037B  92 93                130  	MOV R,C
-037D                       131  
-037D  7E 64                132  	MOV R6,#100
-037F                       133  	
-037F                       134  		
-037F                       135  ;-------------- HANDLE THE HH2HH1:MM2MM1:SS2SS1
-037F                       136  	
-037F  E5 30                137  	MOV A,SS1
-0381  B4 09 33             138  	CJNE A,#9,INC_SS1
-0384  75 30 00             139  	MOV SS1,#0			;MAKE ZER0
-0387                       140  	
-0387  E5 31                141  	MOV A,SS2
-0389  B4 05 30             142  	CJNE A,#5,INC_SS2
-038C  75 31 00             143  	MOV SS2,#0			;MAKE ZERO
-038F                       144  	
-038F  E5 32                145  	MOV A,MM1
-0391  B4 09 2D             146  	CJNE A,#9,INC_MM1
-0394  75 32 00             147  	MOV MM1,#0			;MAKE ZERO
-0397                       148  	
-0397  E5 33                149  	MOV A,MM2
-0399  B4 05 2A             150  	CJNE A,#5,INC_MM2
-039C  75 33 00             151  	MOV MM2,#0
-039F                       152  	
-039F  E5 34                153  	MOV A,HH1
-03A1  B4 03 02             154  	CJNE A,#3,IsH1equal9
-03A4  80 06                155  	SJMP IsH2equal2
-03A6                       156  	
-03A6                       157  IsH1equal9:
-03A6  B4 09 22             158  	CJNE A,#9,INC_HH1
-03A9  75 34 00             159  	MOV HH1,#0
-03AC                       160  IsH2equal2:
-03AC  E5 35                161  	MOV A,HH2
-03AE  B4 02 1F             162  	CJNE A,#2,INC_HH2
-03B1                       163  
-03B1  12 03 63             164  	LCALL RESETT
-03B4  02 03 D8             165  	LJMP OUTT	
-03B7                       166  
-03B7                       167  INC_SS1:
-03B7  05 30                168  	INC SS1
-03B9  02 03 D8             169  	LJMP OUTT
-03BC                       170  INC_SS2:
-03BC  05 31                171  	INC SS2
-03BE  02 03 D8             172  	LJMP OUTT
-03C1                       173  INC_MM1:
-03C1  05 32                174  	INC MM1
+036A  75 35 00             117  	MOV HH2,#0
+036D  75 32 00             118  	MOV MM1,#0
+0370  75 33 00             119  	MOV MM2,#0
+0373  75 30 00             120  	MOV SS1,#0
+0376  75 31 00             121  	MOV SS2,#0
+0379  22                   122  	RET
+037A                       123  
+037A                       124  	
+037A                       125  ;---START OF SUB PROCESSES
+037A                       126  IntDELAY:
+037A  DE 60                127  	DJNZ R6,OUTT
+037C                       128  
+037C  A2 93                129  	MOV C,R
+037E  B3                   130  	CPL C
+037F  92 93                131  	MOV R,C
+0381                       132  
+0381  7E 64                133  	MOV R6,#100
+0383                       134  	
+0383                       135  		
+0383                       136  ;-------------- HANDLE THE HH2HH1:MM2MM1:SS2SS1
+0383                       137  	
+0383  E5 30                138  	MOV A,SS1
+0385  B4 09 33             139  	CJNE A,#9,INC_SS1
+0388  75 30 00             140  	MOV SS1,#0			;MAKE ZER0
+038B                       141  	
+038B  E5 31                142  	MOV A,SS2
+038D  B4 05 30             143  	CJNE A,#5,INC_SS2
+0390  75 31 00             144  	MOV SS2,#0			;MAKE ZERO
+0393                       145  	
+0393  E5 32                146  	MOV A,MM1
+0395  B4 09 2D             147  	CJNE A,#9,INC_MM1
+0398  75 32 00             148  	MOV MM1,#0			;MAKE ZERO
+039B                       149  	
+039B  E5 33                150  	MOV A,MM2
+039D  B4 05 2A             151  	CJNE A,#5,INC_MM2
+03A0  75 33 00             152  	MOV MM2,#0
+03A3                       153  	
+03A3  E5 34                154  	MOV A,HH1
+03A5  B4 03 02             155  	CJNE A,#3,IsH1equal9
+03A8  80 06                156  	SJMP IsH2equal2
+03AA                       157  	
+03AA                       158  IsH1equal9:
+03AA  B4 09 22             159  	CJNE A,#9,INC_HH1
+03AD  75 34 00             160  	MOV HH1,#0
+03B0                       161  IsH2equal2:
+03B0  E5 35                162  	MOV A,HH2
+03B2  B4 02 1F             163  	CJNE A,#2,INC_HH2
+03B5                       164  
+03B5  12 03 67             165  	LCALL RESETT
+03B8  02 03 DC             166  	LJMP OUTT	
+03BB                       167  
+03BB                       168  INC_SS1:
+03BB  05 30                169  	INC SS1
+03BD  02 03 DC             170  	LJMP OUTT
+03C0                       171  INC_SS2:
+03C0  05 31                172  	INC SS2
+03C2  02 03 DC             173  	LJMP OUTT
+03C5                       174  INC_MM1:
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 4
 
-03C3  02 03 D8             175  	LJMP OUTT
-03C6                       176  INC_MM2:
-03C6  05 33                177  	INC MM2
-03C8  02 03 D8             178  	LJMP OUTT
-03CB                       179  INC_HH1:
-03CB  05 34                180  	INC HH1
-03CD  02 03 D8             181  	LJMP OUTT
-03D0                       182  INC_HH2:
-03D0  05 35                183  	INC HH2
-03D2                       184  
-03D2  75 8C B7             185  	MOV TH0,#0B7H
-03D5  75 8A EE             186  	MOV TL0,#0EEH
-03D8                       187  OUTT:
-03D8  22                   188  	RET	
-03D9                       189  
-03D9                       190  ;------------LCD
-03D9                       191  START:
-03D9                       192  LCD:		
-03D9  71 E5                193  	ACALL INLCD ; Initialize LCD
-03DB  74 08                194  	MOV A,#1000B ; Move cursor to 1st line – send high nibble
-03DD  91 66                195  	ACALL CMD
-03DF  74 00                196  	MOV A,#0000B ; send low nibble
-03E1  91 66                197  	ACALL CMD
-03E3  91 96                198  	ACALL LDELAY ; 4.1 msec required for this command
-03E5                       199  
-03E5                       200  ;-- LCD Initialization Procedure starts here -----
-03E5                       201  INLCD:
-03E5  7F 14                202  	MOV R7,#20
-03E7                       203  WAIT:
-03E7  91 96                204  	ACALL LDELAY ; Step 1
-03E9  DF FC                205  	DJNZ R7,WAIT
-03EB  75 80 07             206  	MOV P0,#00000111B ; Initialise 3 control signals=1
-03EE                       207  	
-03EE  74 03                208  	MOV A,#0011B ; Step 2
-03F0  91 66                209  	ACALL CMD
-03F2  91 96                210  	ACALL LDELAY ; Step 3
-03F4  74 03                211  	MOV A,#0011B ; Step 4
-03F6  91 66                212  	ACALL CMD
-03F8  74 03                213  	MOV A,#0011B ; Step 5
-03FA  91 66                214  	ACALL CMD
-03FC  74 02                215  	MOV A,#0010B ; Step 6
-03FE  91 66                216  	ACALL CMD
-0400  74 02                217  	MOV A,#0010B ; Step 7 – send high nibble <FUNCTION SET?>
-0402  91 66                218  	ACALL CMD
-0404  74 08                219  	MOV A,#1000B ; send low nibble
-0406  91 66                220  	ACALL CMD
-0408  74 00                221  	MOV A,#0000B ; Step 8 – Turn off display – send high nibble
-040A  91 66                222  	ACALL CMD
-040C  74 08                223  	MOV A,#1000B ; send low nibble
-040E  91 66                224  	ACALL CMD
-0410  74 00                225  	MOV A,#0 ; Step 9 - Clear Display – send high nibble
-0412  91 66                226  	ACALL CMD
-0414  74 01                227  	MOV A,#0001B ; send low nibble
-0416  91 66                228  	ACALL CMD
-0418  91 96                229  	ACALL LDELAY ; 4.1 msec required for this command
-041A  74 00                230  	MOV A,#0000B ; Step 10 - Set cursor Move RIGHT - send high nibble
-041C  91 66                231  	ACALL CMD
-041E  74 06                232  	MOV A,#0110B ; send low nibble
+03C5  05 32                175  	INC MM1
+03C7  02 03 DC             176  	LJMP OUTT
+03CA                       177  INC_MM2:
+03CA  05 33                178  	INC MM2
+03CC  02 03 DC             179  	LJMP OUTT
+03CF                       180  INC_HH1:
+03CF  05 34                181  	INC HH1
+03D1  02 03 DC             182  	LJMP OUTT
+03D4                       183  INC_HH2:
+03D4  05 35                184  	INC HH2
+03D6                       185  
+03D6  75 8C B7             186  	MOV TH0,#0B7H
+03D9  75 8A EE             187  	MOV TL0,#0EEH
+03DC                       188  OUTT:
+03DC  22                   189  	RET	
+03DD                       190  
+03DD                       191  ;------------LCD
+03DD                       192  START:
+03DD                       193  LCD:		
+03DD  71 E9                194  	ACALL INLCD ; Initialize LCD
+03DF  74 08                195  	MOV A,#1000B ; Move cursor to 1st line – send high nibble
+03E1  91 6A                196  	ACALL CMD
+03E3  74 00                197  	MOV A,#0000B ; send low nibble
+03E5  91 6A                198  	ACALL CMD
+03E7  91 9A                199  	ACALL LDELAY ; 4.1 msec required for this command
+03E9                       200  
+03E9                       201  ;-- LCD Initialization Procedure starts here -----
+03E9                       202  INLCD:
+03E9  7F 14                203  	MOV R7,#20
+03EB                       204  WAIT:
+03EB  91 9A                205  	ACALL LDELAY ; Step 1
+03ED  DF FC                206  	DJNZ R7,WAIT
+03EF  75 80 07             207  	MOV P0,#00000111B ; Initialise 3 control signals=1
+03F2                       208  	
+03F2  74 03                209  	MOV A,#0011B ; Step 2
+03F4  91 6A                210  	ACALL CMD
+03F6  91 9A                211  	ACALL LDELAY ; Step 3
+03F8  74 03                212  	MOV A,#0011B ; Step 4
+03FA  91 6A                213  	ACALL CMD
+03FC  74 03                214  	MOV A,#0011B ; Step 5
+03FE  91 6A                215  	ACALL CMD
+0400  74 02                216  	MOV A,#0010B ; Step 6
+0402  91 6A                217  	ACALL CMD
+0404  74 02                218  	MOV A,#0010B ; Step 7 – send high nibble <FUNCTION SET?>
+0406  91 6A                219  	ACALL CMD
+0408  74 08                220  	MOV A,#1000B ; send low nibble
+040A  91 6A                221  	ACALL CMD
+040C  74 00                222  	MOV A,#0000B ; Step 8 – Turn off display – send high nibble
+040E  91 6A                223  	ACALL CMD
+0410  74 08                224  	MOV A,#1000B ; send low nibble
+0412  91 6A                225  	ACALL CMD
+0414  74 00                226  	MOV A,#0 ; Step 9 - Clear Display – send high nibble
+0416  91 6A                227  	ACALL CMD
+0418  74 01                228  	MOV A,#0001B ; send low nibble
+041A  91 6A                229  	ACALL CMD
+041C  91 9A                230  	ACALL LDELAY ; 4.1 msec required for this command
+041E  74 00                231  	MOV A,#0000B ; Step 10 - Set cursor Move RIGHT - send high nibble
+0420  91 6A                232  	ACALL CMD
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 5
 
-0420  91 66                233  	ACALL CMD
-0422  74 00                234  	MOV A,#0000B ; Step 11 – send high nibble
-0424  91 66                235  	ACALL CMD ; Turn ON Display, Cursor ON, Blink Cursor
-0426  74 0F                236  	MOV A,#1111B ; send low nibble
-0428  91 66                237  	ACALL CMD
-042A  22                   238  	RET
-042B                       239  ;--- End of LCD initialization -----
-042B                       240  ;----Routines:
-042B                       241  G_LED:
-042B  79 03                242  	MOV R1,#3
-042D                       243  MORE:	
-042D  A2 90                244  	MOV C,G
-042F  B3                   245  	CPL C
-0430  92 90                246  	MOV G,C
-0432  78 32                247  	MOV R0,#50	
-0434                       248  GREEN:
-0434  D8 FE                249  	DJNZ R0,GREEN	; HOLD LIGHT
-0436  D9 F5                250  	DJNZ R1,MORE	; FLASH AGAIN
-0438  D2 90                251  	SETB G			; TURN OFF LED
-043A  22                   252  	RET
-043B                       253  RESTART_LCD:
-043B  75 35 00             254  	MOV HH2,#0	; RESET MEM LOCATIONS
-043E  75 34 00             255  	MOV HH1,#0
-0441  75 33 00             256  	MOV MM2,#0
-0444  75 32 00             257  	MOV MM1,#0
-0447  75 31 00             258  	MOV SS2,#0
-044A  75 30 00             259  	MOV SS1,#0
-044D                       260  				
-044D  74 01                261  	MOV A,#1	; RESET DISPLAY
-044F  02 04 66             262  	LJMP CMD
-0452                       263  
-0452                       264  PROMPT:
-0452  91 62                265  	ACALL LINE2		; GO TO LINE 2
-0454  90 04 A7             266  	MOV DPTR,#PROMPT_MSG ; POINT TO MSG
-0457  91 6B                267  	ACALL WSTR				; WRITE STRING TO LCD
-0459  91 96                268  	ACALL LDELAY
-045B  91 5E                269  	ACALL LINE1				; GO BACK TO LINE1
-045D  22                   270  	RET
-045E                       271  
-045E                       272  ;---- Subroutines to write commands in A to the LCD -------
-045E                       273  LINE1:
-045E  74 00                274  	MOV A,#0
-0460  80 04                275  	SJMP CMD
-0462                       276  LINE2:
-0462  74 C0                277  	MOV A,#11000000B	; 40 HEX = LINE 2
-0464  80 00                278  	SJMP CMD
-0466                       279  CMD:
-0466  C2 80                280  	CLR RS 		; RS = 0 command write
-0468  91 85                281  	ACALL COMMON
-046A  22                   282  	RET
-046B                       283  ;---- Subroutine to write A STRING character by character -------
-046B                       284  WSTR:
-046B  C0 E0                285  	PUSH ACC 
-046D                       286  CONT1: 
-046D  E4                   287  	CLR A
-046E  93                   288  	MOVC A,@A+DPTR
-046F  60 05                289  	JZ EXIT1
-0471  91 79                290  	ACALL WCHR
+0422  74 06                233  	MOV A,#0110B ; send low nibble
+0424  91 6A                234  	ACALL CMD
+0426  74 00                235  	MOV A,#0000B ; Step 11 – send high nibble
+0428  91 6A                236  	ACALL CMD ; Turn ON Display, Cursor ON, Blink Cursor
+042A  74 0F                237  	MOV A,#1111B ; send low nibble
+042C  91 6A                238  	ACALL CMD
+042E  22                   239  	RET
+042F                       240  ;--- End of LCD initialization -----
+042F                       241  ;----Routines:
+042F                       242  G_LED:
+042F  79 03                243  	MOV R1,#3
+0431                       244  MORE:	
+0431  A2 90                245  	MOV C,G
+0433  B3                   246  	CPL C
+0434  92 90                247  	MOV G,C
+0436  78 32                248  	MOV R0,#50	
+0438                       249  GREEN:
+0438  D8 FE                250  	DJNZ R0,GREEN	; HOLD LIGHT
+043A  D9 F5                251  	DJNZ R1,MORE	; FLASH AGAIN
+043C  D2 90                252  	SETB G			; TURN OFF LED
+043E  22                   253  	RET
+043F                       254  RESTART_LCD:
+043F  75 35 00             255  	MOV HH2,#0	; RESET MEM LOCATIONS
+0442  75 34 00             256  	MOV HH1,#0
+0445  75 33 00             257  	MOV MM2,#0
+0448  75 32 00             258  	MOV MM1,#0
+044B  75 31 00             259  	MOV SS2,#0
+044E  75 30 00             260  	MOV SS1,#0
+0451                       261  				
+0451  74 01                262  	MOV A,#1	; RESET DISPLAY
+0453  02 04 6A             263  	LJMP CMD
+0456                       264  
+0456                       265  PROMPT:
+0456  91 66                266  	ACALL LINE2		; GO TO LINE 2
+0458  90 04 AB             267  	MOV DPTR,#PROMPT_MSG ; POINT TO MSG
+045B  91 6F                268  	ACALL WSTR				; WRITE STRING TO LCD
+045D  91 9A                269  	ACALL LDELAY
+045F  91 62                270  	ACALL LINE1				; GO BACK TO LINE1
+0461  22                   271  	RET
+0462                       272  
+0462                       273  ;---- Subroutines to write commands in A to the LCD -------
+0462                       274  LINE1:
+0462  74 00                275  	MOV A,#0
+0464  80 04                276  	SJMP CMD
+0466                       277  LINE2:
+0466  74 C0                278  	MOV A,#11000000B	; 40 HEX = LINE 2
+0468  80 00                279  	SJMP CMD
+046A                       280  CMD:
+046A  C2 80                281  	CLR RS 		; RS = 0 command write
+046C  91 89                282  	ACALL COMMON
+046E  22                   283  	RET
+046F                       284  ;---- Subroutine to write A STRING character by character -------
+046F                       285  WSTR:
+046F  C0 E0                286  	PUSH ACC 
+0471                       287  CONT1: 
+0471  E4                   288  	CLR A
+0472  93                   289  	MOVC A,@A+DPTR
+0473  60 05                290  	JZ EXIT1
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 6
 
-0473  A3                   291  	INC DPTR
-0474  81 6D                292  	AJMP CONT1
-0476                       293  EXIT1:
-0476  D0 E0                294  	POP ACC
-0478  22                   295  	RET
-0479                       296  	;---- Subroutine to write character in A to the LCD -------
-0479                       297  WCHR:
-0479  D2 80                298  	SETB RS ; RS = 1 data write
-047B  F5 F0                299  	MOV B,A
-047D  C4                   300  	SWAP A ; Move higher nibble to lower nibble
-047E  91 85                301  	ACALL COMMON ; write operation
-0480  E5 F0                302  	MOV A,B
-0482  91 85                303  	ACALL COMMON
-0484  22                   304  	RET
-0485                       305  ;----- Common operation for CHAR write and COMMAND write
-0485                       306  COMMON:
-0485  C2 81                307  	CLR WR
-0487  C4                   308  	SWAP A ; Move Lower nibble to higher nibble
-0488  54 F0                309  	ANL A,#11110000B
-048A  53 80 07             310  	ANL P0,#00000111B
-048D  42 80                311  	ORL P0,A
-048F  D2 82                312  	SETB EN
-0491  C2 82                313  	CLR EN
-0493  91 96                314  	ACALL LDELAY
-0495  22                   315  	RET
-0496                       316  ;---- Subroutine to write A STRING character by character -------
-0496                       317  
-0496                       318  ;------------ ˜ 5.4 msec DELAY -------------------------------------------
-0496                       319  LDELAY:
-0496  C0 00                320  	PUSH 0
-0498  C0 01                321  	PUSH 1 ; save register1.
-049A  79 14                322  	MOV R1,#20
-049C                       323  CON4: 
-049C  78 FA                324  	MOV R0,#250
-049E  D8 FE                325  	DJNZ R0,$
-04A0  D9 FA                326  	DJNZ R1,CON4
-04A2  D0 01                327  	POP 1
-04A4  D0 00                328  	POP 0
-04A6  22                   329  	RET
-04A7                       330  
-04A7  50 6C 65 61 73 65 +  331  PROMPT_MSG: STRZ "Please enter new time"
-04BD                       332  END
+0475  91 7D                291  	ACALL WCHR
+0477  A3                   292  	INC DPTR
+0478  81 71                293  	AJMP CONT1
+047A                       294  EXIT1:
+047A  D0 E0                295  	POP ACC
+047C  22                   296  	RET
+047D                       297  	;---- Subroutine to write character in A to the LCD -------
+047D                       298  WCHR:
+047D  D2 80                299  	SETB RS ; RS = 1 data write
+047F  F5 F0                300  	MOV B,A
+0481  C4                   301  	SWAP A ; Move higher nibble to lower nibble
+0482  91 89                302  	ACALL COMMON ; write operation
+0484  E5 F0                303  	MOV A,B
+0486  91 89                304  	ACALL COMMON
+0488  22                   305  	RET
+0489                       306  ;----- Common operation for CHAR write and COMMAND write
+0489                       307  COMMON:
+0489  C2 81                308  	CLR WR
+048B  C4                   309  	SWAP A ; Move Lower nibble to higher nibble
+048C  54 F0                310  	ANL A,#11110000B
+048E  53 80 07             311  	ANL P0,#00000111B
+0491  42 80                312  	ORL P0,A
+0493  D2 82                313  	SETB EN
+0495  C2 82                314  	CLR EN
+0497  91 9A                315  	ACALL LDELAY
+0499  22                   316  	RET
+049A                       317  ;---- Subroutine to write A STRING character by character -------
+049A                       318  
+049A                       319  ;------------ ˜ 5.4 msec DELAY -------------------------------------------
+049A                       320  LDELAY:
+049A  C0 00                321  	PUSH 0
+049C  C0 01                322  	PUSH 1 ; save register1.
+049E  79 14                323  	MOV R1,#20
+04A0                       324  CON4: 
+04A0  78 FA                325  	MOV R0,#250
+04A2  D8 FE                326  	DJNZ R0,$
+04A4  D9 FA                327  	DJNZ R1,CON4
+04A6  D0 01                328  	POP 1
+04A8  D0 00                329  	POP 0
+04AA  22                   330  	RET
+04AB                       331  
+04AB  50 6C 65 61 73 65 +  332  PROMPT_MSG: STRZ "Please enter new time"
+04C1                       333  END
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 7
 
 SYMBOL TABLE:
 
-AGAIN   -0322   CMD     -0466   COMMON  -0485   CON4    -049C   CONT1   -046D
-EN      -0082   END     -04BD   EX0ISR  -0016   EX1ISR  -001A   EXIT1   -0476
-G       -0090   GREEN   -0434   G_LED   -042B   HH1     -0034   HH2     -0035
-INC_HH1 -03CB   INC_HH2 -03D0   INC_MM1 -03C1   INC_MM2 -03C6   INC_SS1 -03B7
-INC_SS2 -03BC   INIT_INTER              -0300   INIT_LCD-030D   INLCD   -03E5
-INTDELAY-0376   ISH1EQUAL9              -03A6   ISH2EQUAL2              -03AC
-LCD     -03D9   LDATA   -0080   LDELAY  -0496   LINE1   -045E   LINE2   -0462
-MM1     -0032   MM2     -0033   MORE    -042D   OUTT    -03D8   PROMPT  -0452
-PROMPT_MSG              -04A7   R       -0093   RESETT  -0363   RESTART_LCD             -043B
-RS      -0080   SS1     -0030   SS2     -0031   START   -03D9   T0ISR   -0024
-TF0     -008D   TR0     -008C   WAIT    -03E7   WCHR    -0479   WR      -0081
-WSTR    -046B
+AGAIN   -0324   CMD     -046A   COMMON  -0489   CON4    -04A0   CONT1   -0471
+EN      -0082   END     -04C1   EX0ISR  -0016   EX1ISR  -001A   EXIT1   -047A
+G       -0090   GREEN   -0438   G_LED   -042F   HH1     -0034   HH2     -0035
+INC_HH1 -03CF   INC_HH2 -03D4   INC_MM1 -03C5   INC_MM2 -03CA   INC_SS1 -03BB
+INC_SS2 -03C0   INIT_INTER              -0300   INIT_LCD-030D   INLCD   -03E9
+INTDELAY-037A   ISH1EQUAL9              -03AA   ISH2EQUAL2              -03B0
+LCD     -03DD   LDATA   -0080   LDELAY  -049A   LINE1   -0462   LINE2   -0466
+MM1     -0032   MM2     -0033   MORE    -0431   OUTT    -03DC   PROMPT  -0456
+PROMPT_MSG              -04AB   R       -0093   RESETT  -0367   RESTART_LCD             -043F
+RS      -0080   SS1     -0030   SS2     -0031   START   -03DD   T0ISR   -0024
+TF0     -008D   TR0     -008C   WAIT    -03EB   WCHR    -047D   WR      -0081
+WSTR    -046F
