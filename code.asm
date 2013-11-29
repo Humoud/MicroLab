@@ -29,19 +29,31 @@ HH2	EQU	35H
 		ORG 013H ; EX1 INT VECTOR ADDRESS
 	LJMP EX1ISR
 
+<<<<<<< HEAD
 
+=======
+		ORG 00BH 
+	LJMP T0ISR
+>>>>>>> interrupt2-qallaf-copy
 ;--------INTERRUPT ROUTINES---
 EX0ISR:
 	LCALL PROMPT
 	;CODE	KEYPAD AND STUFF
 	RETI
 EX1ISR:
+<<<<<<< HEAD
 	LCALL RESTART_LCD
 	LCALL G_LED			; FLASH G LED 3 TIMES
 	LJMP INIT			; NOW START COUNTING
 	RETI
 T1SR:
 	; CODE
+=======
+	 LCALL RESTART_LCD
+
+T0ISR:
+	LCALL IntDELAY
+>>>>>>> interrupt2-qallaf-copy
 
 ;------------------------------
 		ORG 300H
@@ -101,7 +113,32 @@ AGAIN:
 	ACALL LDELAY ; 4.1 msec required for this command
 	
 	;------ RESUME
-	LCALL Delay
+
+	LJMP AGAIN
+
+RESETT:
+	MOV HH1,#0
+	MOV HH2,#0
+	MOV MM1,#0
+	MOV MM2,#0
+	MOV SS1,#0
+	MOV SS2,#0
+	RET
+
+	
+;---START OF SUB PROCESSES
+IntDELAY:
+	DJNZ R6,OUTT
+
+	MOV C,R
+	CPL C
+	MOV R,C
+
+	MOV R6,#100
+	
+	MOV TH0,#0B7H
+	MOV TL0,#0EEH	
+;-------------- HANDLE THE HH2HH1:MM2MM1:SS2SS1
 	
 	MOV A,SS1
 	CJNE A,#9,INC_SS1
@@ -130,6 +167,7 @@ IsH1equal9:
 IsH2equal2:
 	MOV A,HH2
 	CJNE A,#2,INC_HH2
+<<<<<<< HEAD
 RESETT:
 	MOV HH2,#0
 	MOV HH1,#0
@@ -140,23 +178,29 @@ RESETT:
 
 	LJMP AGAIN
 
+=======
+	LCALL RESETT
+	LJMP OUTT
+	
+>>>>>>> interrupt2-qallaf-copy
 INC_SS1:
 	INC SS1
-	LJMP AGAIN
+	LJMP OUTT
 INC_SS2:
 	INC SS2
-	LJMP AGAIN
+	LJMP OUTT
 INC_MM1:
 	INC MM1
-	LJMP AGAIN
+	LJMP OUTT
 INC_MM2:
 	INC MM2
-	LJMP AGAIN
+	LJMP OUTT
 INC_HH1:
 	INC HH1
-	LJMP AGAIN
+	LJMP OUTT
 INC_HH2:
 	INC HH2
+<<<<<<< HEAD
 	LJMP AGAIN
 ;---START OF SUB PROCESSES
 
@@ -171,14 +215,15 @@ DELAYy:
 	MOV TH0,#0B7H
 	MOV TL0,#0EEH	
 	SETB TR0
-
-LOOP:
-	JNB TF0,LOOP
-	CLR TR0
-	CLR TF0
+=======
 	
-	DJNZ R6,DELAYy
-	RET
+>>>>>>> interrupt2-qallaf-copy
+
+	
+	
+OUTT:
+	RETI	
+
 ;------------LCD
 START:
 LCD:		
