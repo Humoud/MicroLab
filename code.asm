@@ -46,7 +46,6 @@ INIT:
 	MOV HH1,#0    ; HH
 	MOV HH2,#0    ; HH
 
-
 AGAIN:
 	;--------------SEND HH---------
 	ACALL LCD
@@ -89,8 +88,7 @@ AGAIN:
 	ACALL WCHR 
 	ACALL LDELAY ; 4.1 msec required for this command
 	
-	
-	;------ RESUME YOUR NORMAL CRAP
+	;------ RESUME
 	LCALL Delay
 	
 	MOV A,SS1
@@ -117,7 +115,6 @@ AGAIN:
 	
 	SJMP AGAIN
 
-
 INC_SS1:
 	INC SS1
 	SJMP AGAIN
@@ -143,31 +140,17 @@ Delay:
 	MOV R6,#100
 DELAYy:		
 	MOV TH0,#0B7H
-	
-	MOV TL0,#0EEH
-	
-	
+	MOV TL0,#0EEH	
 	SETB TR0
-
 
 LOOP:
 	JNB TF0,LOOP
-	
-	
 	CLR TR0
-	
 	CLR TF0
 	
-	
 	DJNZ R6,DELAYy
-	
 	RET
-
-
-
 ;------------LCD
-
-
 START:
 LCD:		
 	ACALL INLCD ; Initialize LCD
@@ -195,7 +178,7 @@ WAIT:
 	ACALL CMD
 	MOV A,#0010B ; Step 6
 	ACALL CMD
-	MOV A,#0010B ; Step 7 – send high nibble
+	MOV A,#0010B ; Step 7 – send high nibble <FUNCTION SET?>
 	ACALL CMD
 	MOV A,#1000B ; send low nibble
 	ACALL CMD
@@ -219,8 +202,12 @@ WAIT:
 	RET
 ;--- End of LCD initialization -----
 ;---- Subroutine to write COMMAND in A to the LCD -------
+LINE1:
+	MOV A,#0
+LINE2:
+	MOV A,#11000000B	; 40 HEX = LINE 2
 CMD:
-	CLR RS ; RS = 0 command write
+	CLR RS 		; RS = 0 command write
 	ACALL COMMON
 	RET
 	;---- Subroutine to write character in A to the LCD -------
@@ -258,4 +245,5 @@ CON4:
 	POP 0
 	RET
 
+PROMPT: DB "Please enter new time"
 END
