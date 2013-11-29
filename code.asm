@@ -43,7 +43,7 @@ EX1ISR:
 	RETI
 T0ISR:
 	LCALL IntDELAY
-
+	RETI
 
 ;------------------------------
 		ORG 300H
