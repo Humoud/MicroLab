@@ -1,5 +1,4 @@
 ; STOPWATCH FORMAT HH2_HH1:MM2_MM1:SS2_SS1
-	ORG 0H
 
 TR0 BIT TCON.4
 TF0 BIT TCON.5
@@ -20,6 +19,23 @@ HH1	EQU	34H
 HH2	EQU	35H
 
 
+		ORG 00H 
+	LJMP INIT
+
+		ORG 003H ; EX0 int vector address
+	LJMP EX0ISR
+
+		ORG 01BH ; Timer-1 INT vec address
+	LJMP T1SR
+;--------INTERRUPT ROUTINES---
+EX0ISR:
+	;CODE
+
+T1SR:
+	;CODE
+
+;------------------------------
+		ORG 300H
 INIT:	
 	MOV TMOD,#000000001B
 	
