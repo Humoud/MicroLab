@@ -25,35 +25,25 @@ HH2	EQU	35H
 		ORG 003H ; EX0 INT VECTOR ADDRESS
 	LJMP EX0ISR
 
+		ORG 00BH 
+	LJMP T0ISR
 
 		ORG 013H ; EX1 INT VECTOR ADDRESS
 	LJMP EX1ISR
 
-<<<<<<< HEAD
-
-=======
-		ORG 00BH 
-	LJMP T0ISR
->>>>>>> interrupt2-qallaf-copy
 ;--------INTERRUPT ROUTINES---
 EX0ISR:
 	LCALL PROMPT
 	;CODE	KEYPAD AND STUFF
 	RETI
 EX1ISR:
-<<<<<<< HEAD
 	LCALL RESTART_LCD
 	LCALL G_LED			; FLASH G LED 3 TIMES
 	LJMP INIT			; NOW START COUNTING
 	RETI
-T1SR:
-	; CODE
-=======
-	 LCALL RESTART_LCD
-
 T0ISR:
 	LCALL IntDELAY
->>>>>>> interrupt2-qallaf-copy
+
 
 ;------------------------------
 		ORG 300H
@@ -160,29 +150,16 @@ IntDELAY:
 	CJNE A,#3,IsH1equal9
 	SJMP IsH2equal2
 	
-	
 IsH1equal9:
 	CJNE A,#9,INC_HH1
 	MOV HH1,#0
 IsH2equal2:
 	MOV A,HH2
 	CJNE A,#2,INC_HH2
-<<<<<<< HEAD
-RESETT:
-	MOV HH2,#0
-	MOV HH1,#0
-	MOV MM2,#0
-	MOV MM1,#0
-	MOV SS2,#0
-	MOV SS1,#0
 
-	LJMP AGAIN
-
-=======
 	LCALL RESETT
-	LJMP OUTT
-	
->>>>>>> interrupt2-qallaf-copy
+	LJMP OUTT	
+
 INC_SS1:
 	INC SS1
 	LJMP OUTT
@@ -200,27 +177,7 @@ INC_HH1:
 	LJMP OUTT
 INC_HH2:
 	INC HH2
-<<<<<<< HEAD
-	LJMP AGAIN
-;---START OF SUB PROCESSES
 
-Delay:				; FLASH RED LED
-	MOV C,R
-	CPL C
-	MOV R,C
-
-	MOV R6,#100
-
-DELAYy:		
-	MOV TH0,#0B7H
-	MOV TL0,#0EEH	
-	SETB TR0
-=======
-	
->>>>>>> interrupt2-qallaf-copy
-
-	
-	
 OUTT:
 	RETI	
 
