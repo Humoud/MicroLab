@@ -34,7 +34,7 @@ EX0ISR:
 	LCALL PROMPT
 
 EX1ISR:
-	; CODE
+	LCALL RESTART_LCD
 
 T1SR:
 	; CODE
@@ -165,7 +165,6 @@ LCD:
 	ACALL CMD
 	ACALL LDELAY ; 4.1 msec required for this command
 
-
 ;-- LCD Initialization Procedure starts here -----
 INLCD:
 	MOV R7,#20
@@ -209,11 +208,11 @@ WAIT:
 ;----Routines:
 PROMPT:
 	ACALL LINE2		; GO TO LINE 2
-	CLR A
 	MOV DPTR,#PROMPT_MSG ; POINT TO MSG
 	ACALL WSTR				; WRITE STRING TO LCD
 	ACALL LDELAY
 	ACALL LINE1				; GO BACK TO LINE1
+	RET
 
 ;---- Subroutines to write commands in A to the LCD -------
 LINE1:
