@@ -18,12 +18,14 @@ MM2 EQU 33H
 HH1	EQU	34H
 HH2	EQU	35H
 
-
 		ORG 00H 
 	LJMP INIT
 
-		ORG 003H ; EX0 int vector address
+		ORG 003H ; EX0 INT VECTOR ADDRESS
 	LJMP EX0ISR
+
+		ORG 013H ; EX1 INT VECTOR ADDRESS
+	LJMP EX1ISR
 
 		ORG 01BH ; Timer-1 INT vec address
 	LJMP T1SR
@@ -31,8 +33,11 @@ HH2	EQU	35H
 EX0ISR:
 	LCALL PROMPT
 
+EX1ISR:
+	; CODE
+
 T1SR:
-	;CODE
+	; CODE
 
 ;------------------------------
 		ORG 300H
@@ -205,9 +210,8 @@ WAIT:
 PROMPT:
 	ACALL LINE2		; GO TO LINE 2
 	CLR A
-	MOV DPTR,#PROMPT_MSG
-	MOVC A,@A+DPTR			; GET MESSAGE
-	ACALL WCHR				; WRITE TO LCD
+	MOV DPTR,#PROMPT_MSG ; POINT TO MSG
+	ACALL WSTR				; WRITE STRING TO LCD
 	ACALL LDELAY
 	ACALL LINE1				; GO BACK TO LINE1
 
@@ -219,6 +223,19 @@ LINE2:
 CMD:
 	CLR RS 		; RS = 0 command write
 	ACALL COMMON
+	RET
+;---- Subroutine to write A STRING character by character -------
+WSTR:
+	PUSH ACC 
+CONT1: 
+	CLR A
+	MOVC A,@A+DPTR
+	JZ EXIT1
+	ACALL WCHR
+	INC DPTR
+	AJMP CONT1
+EXIT1:
+	POP ACC
 	RET
 	;---- Subroutine to write character in A to the LCD -------
 WCHR:
@@ -255,5 +272,5 @@ CON4:
 	POP 0
 	RET
 
-PROMPT_MSG: DB "Please enter new time"
+PROMPT_MSG: STRZ "Please enter new time"
 END
