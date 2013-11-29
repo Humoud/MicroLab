@@ -30,18 +30,19 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 0013  02 00 11              28  	LJMP EX1ISR
 0016                        29  
 000B                        30  		ORG 00BH ; TESTING QALLAF
-000B  02 00 11              31  	LJMP T0ISR
+000B  02 00 14              31  	LJMP T0ISR
 000E                        32  ;--------INTERRUPT ROUTINES---
 000E                        33  EX0ISR:
 000E  12 04 1E              34  	LCALL PROMPT
 0011                        35  
 0011                        36  EX1ISR:
-0011                        37  	; LCALL RESTART_LCD
-0011                        38  
-0011                        39  T0ISR:
-0011  12 03 69              40  	LCALL IntDELAY
-0014                        41  
-0014                        42  ;------------------------------
+0011  12 88 88              37  	 LCALL RESTART_LCD
+  ** ERROR ** - 5 - Undefined symbol
+0014                        38  
+0014                        39  T0ISR:
+0014  12 03 69              40  	LCALL IntDELAY
+0017                        41  
+0017                        42  ;------------------------------
 0300                        43  		ORG 300H
 0300                        44  INIT:	
 0300  75 89 01              45  	MOV TMOD,#000000001B
@@ -57,9 +58,9 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 0315                        55  	;--------------SEND HH---------
 0315  71 CC                 56  	ACALL LCD
 0317  E5 35                 57  	MOV A,HH2 ; MOVE THE HH SECOND
-0319  24 30                 58  	ADD A,#30H	;HEXIFY
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 2
 
+0319  24 30                 58  	ADD A,#30H	;HEXIFY
 031B  91 41                 59  	ACALL WCHR 
 031D  91 5E                 60  	ACALL LDELAY ; 4.1 msec required for this command
 031F                        61  	;---HH1
@@ -117,9 +118,9 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 036B                       113  
 036B  A2 93                114  	MOV C,R
 036D  B3                   115  	CPL C
-036E  92 93                116  	MOV R,C
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 3
 
+036E  92 93                116  	MOV R,C
 0370                       117  
 0370  7E 64                118  	MOV R6,#100
 0372                       119  	
@@ -177,9 +178,9 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 03CB                       171  	
 03CB                       172  
 03CB                       173  	
-03CB                       174  	
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 4
 
+03CB                       174  	
 03CB                       175  OUTT:
 03CB  32                   176  	RETI	
 03CC                       177  
@@ -237,9 +238,9 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 041E                       229  PROMPT:
 041E  91 2C                230  	ACALL LINE2		; GO TO LINE 2
 0420  90 04 6F             231  	MOV DPTR,#PROMPT_MSG ; POINT TO MSG
-0423  91 33                232  	ACALL WSTR				; WRITE STRING TO LCD
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 5
 
+0423  91 33                232  	ACALL WSTR				; WRITE STRING TO LCD
 0425  91 5E                233  	ACALL LDELAY
 0427  91 2A                234  	ACALL LINE1				; GO BACK TO LINE1
 0429  22                   235  	RET
@@ -297,14 +298,16 @@ DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 1
 0464  78 FA                287  	MOV R0,#250
 0466  D8 FE                288  	DJNZ R0,$
 0468  D9 FA                289  	DJNZ R1,CON4
-046A  D0 01                290  	POP 1
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 6
 
+046A  D0 01                290  	POP 1
 046C  D0 00                291  	POP 0
 046E  22                   292  	RET
 046F                       293  
 046F  50 6C 65 61 73 65 +  294  PROMPT_MSG: STRZ "Please enter new time"
 0485                       295  END
+
+ 1 error(s) occurred in this assembly.
 DUNFIELD 8051 ASSEMBLER: CODE                                         PAGE: 7
 
 SYMBOL TABLE:
@@ -317,5 +320,5 @@ INTDELAY-0369   ISH1EQUAL9              -039F   ISH2EQUAL2              -03A5
 LCD     -03CC   LDATA   -0080   LDELAY  -045E   LINE1   -042A   LINE2   -042C
 MM1     -0032   MM2     -0033   OUTT    -03CB   PROMPT  -041E   PROMPT_MSG              -046F
 R       -0093   RESETT  -0356   RS      -0080   SS1     -0030   SS2     -0031
-START   -03CC   T0ISR   -0011   TF0     -008D   TR0     -008C   WAIT    -03DA
+START   -03CC   T0ISR   -0014   TF0     -008D   TR0     -008C   WAIT    -03DA
 WCHR    -0441   WR      -0081   WSTR    -0433
