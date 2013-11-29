@@ -1,6 +1,6 @@
 ; STOPWATCH FORMAT HH2_HH1:MM2_MM1:SS2_SS1
 	ORG 0H
-
+;crap comments
 TR0 BIT TCON.4
 TF0 BIT TCON.5
 ;-------------
