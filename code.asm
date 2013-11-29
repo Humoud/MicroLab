@@ -29,7 +29,7 @@ HH2	EQU	35H
 	LJMP T1SR
 ;--------INTERRUPT ROUTINES---
 EX0ISR:
-	;CODE
+	LCALL PROMPT
 
 T1SR:
 	;CODE
@@ -201,7 +201,17 @@ WAIT:
 	ACALL CMD
 	RET
 ;--- End of LCD initialization -----
-;---- Subroutine to write COMMAND in A to the LCD -------
+;----Routines:
+PROMPT:
+	ACALL LINE2		; GO TO LINE 2
+	CLR A
+	MOV DPTR,#PROMPT_MSG
+	MOVC A,@A+DPTR			; GET MESSAGE
+	ACALL WCHR				; WRITE TO LCD
+	ACALL LDELAY
+	ACALL LINE1				; GO BACK TO LINE1
+
+;---- Subroutines to write commands in A to the LCD -------
 LINE1:
 	MOV A,#0
 LINE2:
@@ -245,5 +255,5 @@ CON4:
 	POP 0
 	RET
 
-PROMPT: DB "Please enter new time"
+PROMPT_MSG: DB "Please enter new time"
 END
