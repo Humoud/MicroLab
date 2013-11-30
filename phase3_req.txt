@@ -1,0 +1,21 @@
+[+] The 24 hour format
+
+[+] Timer interrupt => one sec delay
+
+[+] PB1(Ex0) => Prompt the user to enter a new time 
+by displaying a message on the 2nd line of the LCD.
+User to enter a 6-digit number (hh:mm:ss) and displays it on the second line of the LCD.
+The colon (:) should be displayed by the system and not entered by the user.
+DDRAM
+LINE 1: 0
+LINE 2: 40 HEX = 1 1000000 BINARY
+DDRAM INSTR CMD=1<7-BITS ADDRESS>
+;--------------
+
+[+] User enters time using keypad.
+
+[+] PB2(Ex1) => , the system will reset the time to 00:00:00.
+Then, flash the green LED for some time (Flashing should be visible).
+Then, the system continues to update the time starting from 00:00:00.
+
+CMD = 1
