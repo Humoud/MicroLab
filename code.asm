@@ -390,8 +390,10 @@ FIND1:
 MATCH: 
 	CLR A
 	MOVC A,@A+DPTR
+	SUBB A,#30H
 	RET
 
+	; 30 msec delay 
 DELAY:
 	MOV TMOD,#00000001B 
 	MOV TL1,#0CAH
@@ -403,10 +405,10 @@ BACK:
 	CLR TF1
 	RET
 
-KCODE0: DB '1','2','3','A'
-KCODE1: DB '4','5','6','B'
-KCODE2: DB '7','8','9','C'
-KCODE3: DB '*','0','#','D'
+KCODE0: DB '1','2','3','0'
+KCODE1: DB '4','5','6','0'
+KCODE2: DB '7','8','9','0'
+KCODE3: DB '0','0','0','0'
 
 PROMPT_MSG: STRZ "Please enter new time"
 END
