@@ -207,7 +207,12 @@ SETTIME:
 ;---START OF SUB PROCESSES
 
 EXTISR2:
-	    LCALL RESTART_LCD
+	    MOV HH2,#0        ; RESET MEM LOCATIONS
+        MOV HH1,#0
+        MOV MM2,#0
+        MOV MM1,#0
+        MOV SS2,#0
+        MOV SS1,#0
         LCALL G_LED                        ; FLASH G LED 3 TIMES
         LJMP INIT_LCD  
         RET
@@ -342,7 +347,7 @@ MORE:
         MOV C,G
         CPL C
         MOV G,C
-        MOV R0,#10        
+        MOV R0,#200        
 GREEN:
 		LCALL DELAY
         DJNZ R0,GREEN        ; HOLD LIGHT
@@ -356,7 +361,7 @@ RESTART_LCD:
         MOV MM1,#0
         MOV SS2,#0
         MOV SS1,#0
-                                
+                              
 CLR_LCD:
         MOV A,#0H        ; RESET DISPLAY
         LCALL CMD
