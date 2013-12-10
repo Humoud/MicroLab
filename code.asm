@@ -1,12 +1,5 @@
 ; STOPWATCH FORMAT HH2_HH1:MM2_MM1:SS2_SS1
 
-
-
-
-
-
-
-
 TR0 BIT TCON.4
 TF0 BIT TCON.5
 TR1 BIT        TCON.6
@@ -34,16 +27,8 @@ HH2 EQU  35H
 
 
 
-
-
-
-
                 ORG 003H ; EX0 INT VECTOR ADDRESS
         LJMP EX0ISR
-
-
-
-
 
 
 
@@ -55,14 +40,8 @@ HH2 EQU  35H
 
 
 
-
-
-
                 ORG 013H ; EX1 INT VECTOR ADDRESS
         LJMP EX1ISR
-
-
-
 
 
 
@@ -93,16 +72,6 @@ T0ISR:
 
 
 
-
-
-
-
-
-
-
-
-
-
 ;------------------------------
                 ORG 300H
 INIT_INTER:
@@ -111,9 +80,6 @@ INIT_INTER:
         MOV TL0,#0EEH
         SETB TR0
         MOV IE,#10000111B
-
-
-
 
 
 
@@ -150,7 +116,7 @@ AGAIN:
         ACALL WCHR 
         ACALL LDELAY ; 4.1 msec required for this command
         
-        MOV A,#':' ; PUT A COLOR 
+        MOV A,#':' ; PUT A COLON 
         ACALL WCHR 
         ACALL LDELAY ; 4.1 msec required for this command
         ;-------------- NOW SEND MM---------------
@@ -696,14 +662,10 @@ BACK:
 
 
 
-
-
 KCODE0: DB '1','2','3','0'
 KCODE1: DB '4','5','6','0'
 KCODE2: DB '7','8','9','0'
 KCODE3: DB '0','0','0','0'
-
-
 
 
 
