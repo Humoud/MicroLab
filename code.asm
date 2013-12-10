@@ -3,6 +3,10 @@
 
 
 
+
+
+
+
 TR0 BIT TCON.4
 TF0 BIT TCON.5
 TR1 BIT        TCON.6
@@ -30,8 +34,16 @@ HH2 EQU  35H
 
 
 
+
+
+
+
                 ORG 003H ; EX0 INT VECTOR ADDRESS
         LJMP EX0ISR
+
+
+
+
 
 
 
@@ -42,8 +54,16 @@ HH2 EQU  35H
 
 
 
+
+
+
+
                 ORG 013H ; EX1 INT VECTOR ADDRESS
         LJMP EX1ISR
+
+
+
+
 
 
 
@@ -75,14 +95,26 @@ T0ISR:
 
 
 
+
+
+
+
+
+
+
+
 ;------------------------------
                 ORG 300H
 INIT_INTER:
-        MOV R6,#100
+        MOV R6,#39
         MOV TH0,#0B7H
         MOV TL0,#0EEH
         SETB TR0
         MOV IE,#10000111B
+
+
+
+
 
 
 
@@ -152,7 +184,15 @@ AGAIN:
 
 
 
+
+
+
+
         LJMP AGAIN
+
+
+
+
 
 
 
@@ -177,6 +217,10 @@ SETTIME:
 
 
 
+
+
+
+
          LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
@@ -184,6 +228,10 @@ SETTIME:
      SUBB A,#30H
      MOV HH1,A
      ACALL LDELAY
+
+
+
+
 
 
 
@@ -203,6 +251,10 @@ SETTIME:
 
 
 
+
+
+
+
          LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
@@ -212,9 +264,15 @@ SETTIME:
      ACALL LDELAY
 
 
+
+
         MOV A,#':'                ; PRINT COLON 
         ACALL WCHR                 
         ACALL LDELAY
+
+
+
+
 
 
 
@@ -230,6 +288,10 @@ SETTIME:
 
 
 
+
+
+
+
          LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
@@ -237,6 +299,10 @@ SETTIME:
      SUBB A,#30H
      MOV SS1,A
      ACALL LDELAY
+
+
+
+
 
 
 
@@ -251,8 +317,18 @@ SETTIME:
 
 
 
+
+
+
+
+
+
 IntDELAY:
         DJNZ R6,OUTT
+
+
+
+
 
 
 
@@ -264,7 +340,11 @@ IntDELAY:
 
 
 
-        MOV R6,#100
+
+
+
+
+        MOV R6,#39
         
                 
 ;-------------- HANDLE THE HH2HH1:MM2MM1:SS2SS1
@@ -299,8 +379,16 @@ IsH2equal2:
 
 
 
+
+
+
+
         LCALL RESETT
         LJMP OUTT        
+
+
+
+
 
 
 
@@ -326,10 +414,18 @@ INC_HH2:
 
 
 
+
+
+
+
         MOV TH0,#0B7H
         MOV TL0,#0EEH
 OUTT:
         RET        
+
+
+
+
 
 
 
@@ -343,6 +439,10 @@ LCD:
         MOV A,#0000B ; send low nibble
         ACALL CMD
         ACALL LDELAY ; 4.1 msec required for this command
+
+
+
+
 
 
 
@@ -417,6 +517,8 @@ CLR_LCD:
         RET
 
 
+
+
 PROMPT:                
         ;PROMPT USER TO ENTER TIME                
         ACALL LINE2                ; GO TO LINE 2
@@ -425,6 +527,14 @@ PROMPT:
         ACALL WSTR                                ; WRITE STRING TO LCD
         ACALL LDELAY
         RET
+
+
+
+
+
+
+
+
 
 
 
@@ -481,6 +591,10 @@ COMMON:
         ACALL LDELAY
         RET
 ;---- Subroutine to write A STRING character by character -------
+
+
+
+
 
 
 
@@ -561,6 +675,10 @@ MATCH:
 
 
 
+
+
+
+
         ; 30 msec delay 
 DELAY:
         MOV TMOD,#00000001B 
@@ -576,6 +694,10 @@ BACK:
 
 
 
+
+
+
+
 KCODE0: DB '1','2','3','0'
 KCODE1: DB '4','5','6','0'
 KCODE2: DB '7','8','9','0'
@@ -584,5 +706,10 @@ KCODE3: DB '0','0','0','0'
 
 
 
+
+
+
+
 PROMPT_MSG: STRZ "Enter new time:"
 END
+
