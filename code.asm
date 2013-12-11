@@ -56,7 +56,7 @@ EX1ISR:
         ;LJMP INIT_LCD  
         RETI
 T0ISR:
-        LCALL IntDELAY
+        LCALL IntDELAY 
         RETI
 
 
@@ -79,7 +79,7 @@ INIT_LCD:
         MOV MM2,#0    ; MM
         MOV HH1,#0    ; HH
         MOV HH2,#0    ; HH
-                ACALL LCD
+        ACALL LCD
                 
 AGAIN:
         ;--------------SEND HH---------
@@ -214,8 +214,8 @@ SETTIME:
 
 
 
-        LCALL CLR_LCD        ; CLEAR LCD
-        RET
+     LCALL CLR_LCD        ; CLEAR LCD
+     RET
         
 ;---START OF SUB PROCESSES
 
@@ -513,11 +513,6 @@ MATCH:
         MOVC A,@A+DPTR
        ; SUBB A,#30H                ; to dehexify
         RET
-
-
-
-
-
 
 
 
