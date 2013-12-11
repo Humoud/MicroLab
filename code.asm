@@ -25,12 +25,8 @@ HH2 EQU  35H
         LJMP INIT_INTER
 
 
-
-
                 ORG 003H ; EX0 INT VECTOR ADDRESS
         LJMP EX0ISR
-
-
 
 
                 ORG 00BH 
@@ -38,12 +34,8 @@ HH2 EQU  35H
 
 
 
-
-
                 ORG 013H ; EX1 INT VECTOR ADDRESS
         LJMP EX1ISR
-
-
 
 
 
@@ -68,10 +60,6 @@ T0ISR:
         RETI
 
 
-
-
-
-
 ;------------------------------
                 ORG 300H
 INIT_INTER:
@@ -80,9 +68,6 @@ INIT_INTER:
         MOV TL0,#0EEH
         SETB TR0
         MOV IE,#10000111B
-
-
-
 
 
 INIT_LCD:        
@@ -147,21 +132,7 @@ AGAIN:
         
         ;------ RESUME
 
-
-
-
-
-
-
-
         LJMP AGAIN
-
-
-
-
-
-
-
 
 RESETT:
         MOV HH1,#0
@@ -322,7 +293,6 @@ INC_HH2:
 
 
 
-
         MOV TH0,#0B7H
         MOV TL0,#0EEH
 OUTT:
@@ -468,11 +438,6 @@ COMMON:
         ACALL LDELAY
         RET
 ;---- Subroutine to write A STRING character by character -------
-
-
-
-
-
 
 
 
