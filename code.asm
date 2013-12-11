@@ -172,7 +172,7 @@ RESETT:
         MOV SS2,#0
         RET
 SETTIME:
-         LCALL KEYPAD        ; Get 1st digit
+     LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
      MOV A,50H
@@ -182,12 +182,7 @@ SETTIME:
 
 
 
-
-
-
-
-
-         LCALL KEYPAD        ; Get 1st digit
+     LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
      MOV A,50H
@@ -198,15 +193,11 @@ SETTIME:
 
 
 
-
-
-
-
-        MOV A,#':'                ; PRINT COLON 
-        ACALL WCHR                 
-        ACALL LDELAY
+     MOV A,#':'                ; PRINT COLON 
+     ACALL WCHR                 
+     ACALL LDELAY
         
-         LCALL KEYPAD        ; Get 1st digit
+     LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
      MOV A,50H
@@ -215,13 +206,7 @@ SETTIME:
      ACALL LDELAY
 
 
-
-
-
-
-
-
-         LCALL KEYPAD        ; Get 1st digit
+     LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
      MOV A,50H
@@ -232,18 +217,13 @@ SETTIME:
 
 
 
-        MOV A,#':'                ; PRINT COLON 
-        ACALL WCHR                 
-        ACALL LDELAY
+     MOV A,#':'                ; PRINT COLON 
+     ACALL WCHR                 
+     ACALL LDELAY
 
 
 
-
-
-
-
-
-         LCALL KEYPAD        ; Get 1st digit
+     LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
      MOV A,50H
@@ -252,23 +232,13 @@ SETTIME:
      ACALL LDELAY
 
 
-
-
-
-
-
-
-         LCALL KEYPAD        ; Get 1st digit
+     LCALL KEYPAD        ; Get 1st digit
      MOV 50H,A
      ACALL WCHR
      MOV A,50H
      SUBB A,#30H
      MOV SS1,A
      ACALL LDELAY
-
-
-
-
 
 
 
@@ -280,32 +250,14 @@ SETTIME:
 
 
 
-
-
-
-
-
-
-
-
-
 IntDELAY:
         DJNZ R6,OUTT
-
-
-
-
-
 
 
 
         MOV C,R
         CPL C
         MOV R,C
-
-
-
-
 
 
 
@@ -344,17 +296,8 @@ IsH2equal2:
 
 
 
-
-
-
-
-
         LCALL RESETT
         LJMP OUTT        
-
-
-
-
 
 
 
@@ -380,20 +323,10 @@ INC_HH2:
 
 
 
-
-
-
-
         MOV TH0,#0B7H
         MOV TL0,#0EEH
 OUTT:
         RET        
-
-
-
-
-
-
 
 
 ;------------LCD
@@ -405,11 +338,6 @@ LCD:
         MOV A,#0000B ; send low nibble
         ACALL CMD
         ACALL LDELAY ; 4.1 msec required for this command
-
-
-
-
-
 
 
 
@@ -482,9 +410,6 @@ CLR_LCD:
         LCALL CMD
         RET
 
-
-
-
 PROMPT:                
         ;PROMPT USER TO ENTER TIME                
         ACALL LINE2                ; GO TO LINE 2
@@ -493,20 +418,6 @@ PROMPT:
         ACALL WSTR                                ; WRITE STRING TO LCD
         ACALL LDELAY
         RET
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ;---- Subroutines to write commands in A to the LCD -------
